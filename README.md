@@ -57,11 +57,3 @@ Refer to the documentation or available scripts inside the repository.
 - Stay tuned for upcoming features, improvements, and bug fixes!
 
 > Developer
-
-
-```html
-<audio controls autoplay>
-  <source src="https://tikcdn.io/ssstik/aHR0cHM6Ly9zZjE2LWllcy1tdXNpYy12YS50aWt0b2tjZG4uY29tL29iai9tdXNpY2FsbHktbWFsaXZhLW9iai83NDI0MzMyMzY3MDI2MzQyNjYxLm1wMw==" type="audio/mpeg">
-  Your browser does not support the audio element.
-</audio>
-```
