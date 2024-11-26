@@ -59,8 +59,8 @@ Refer to the documentation or available scripts inside the repository.
 ---
 
 # How To Install a Module?
-Step 1: Determine the name of the package you want to install.
-Step 2: Open the panel, Termux, or CLI on your device, then enter this command:
+- Step 1: Determine the name of the package you want to install.
+- Step 2: Open the panel, Termux, or CLI on your device, then enter this command:
 
 ```bash
 $ npm install <package-name>
