@@ -56,7 +56,7 @@ Refer to the documentation or available scripts inside the repository.
 
 - Stay tuned for upcoming features, improvements, and bug fixes!
 
-How To Install a Module?
+# How To Install a Module?
 Step 1: Determine the name of the package you want to install.
 Step 2: Open the panel, Termux, or CLI on your device, then enter this command:
 
