@@ -1,15 +1,25 @@
 let handler = async (m, { conn, text }) => {
-  if (!text) {
-    return m.reply("Tolong masukkan nomor anggota, perintah (admin atau remove), dan waktu (jam:menit atau tanggal).");
+  let target;
+  if (m.quoted) {
+    target = m.quoted.sender;
+  } else if (m.mentionedJid && m.mentionedJid.length > 0) {
+    target = m.mentionedJid[0];
+  } else if (text) {
+    target = text.split(" ")[0] + "@s.whatsapp.net";
+  } else {
+    return m.reply("Tolong tag atau balas pesan pengguna, atau masukkan nomor pengguna.");
   }
 
   const args = text.split(" ");
-  const userId = args[0] + "@s.whatsapp.net";
-  const action = args[1].toLowerCase();
+  const action = args[1]?.toLowerCase();
   const timeInput = args[2];
 
-  if (!timeInput || !userId || !action) {
-    return m.reply("Format salah. Gunakan: *nomor perintah waktu*.");
+  if (!action || (action !== "admin" && action !== "remove")) {
+    return m.reply("Perintah tidak valid. Gunakan format: *tag/reply admin/remove waktu*.");
+  }
+
+  if (!timeInput) {
+    return m.reply("Masukkan waktu dalam format *jam:menit* atau *tanggal*.");
   }
 
   let targetTime = new Date();
@@ -17,7 +27,7 @@ let handler = async (m, { conn, text }) => {
   targetTime.setHours(hours, minutes, 0, 0);
 
   if (isNaN(targetTime.getTime())) {
-    return m.reply("Format waktu salah. Gunakan format jam:menit (misal: 14:30).");
+    return m.reply("Format waktu salah. Gunakan format *jam:menit* (misal: 14:30).");
   }
 
   const delay = targetTime.getTime() - Date.now();
@@ -25,21 +35,21 @@ let handler = async (m, { conn, text }) => {
     return m.reply("Waktu yang dimasukkan sudah lewat. Gunakan waktu yang akan datang.");
   }
 
-  await m.reply(`Perintah akan dijalankan pada ${targetTime.toLocaleTimeString()} (${timeInput})`);
+  await m.reply(`Perintah akan dijalankan pada ${targetTime.toLocaleTimeString()} (${timeInput}).`);
 
   setTimeout(async () => {
     if (action === "admin") {
-      await conn.groupParticipantsUpdate(m.chat, [userId], "promote");
+      await conn.groupParticipantsUpdate(m.chat, [target], "promote");
       await conn.sendMessage(m.chat, {
-        text: `Anggota ${userId} berhasil dipromosikan menjadi admin.`
+        text: `@${target.split("@")[0]} berhasil dipromosikan menjadi admin.`,
+        mentions: [target]
       });
     } else if (action === "remove") {
-      await conn.groupParticipantsUpdate(m.chat, [userId], "demote");
+      await conn.groupParticipantsUpdate(m.chat, [target], "demote");
       await conn.sendMessage(m.chat, {
-        text: `Anggota ${userId} berhasil diturunkan dari status admin.`
+        text: `@${target.split("@")[0]} berhasil diturunkan dari status admin.`,
+        mentions: [target]
       });
-    } else {
-      await m.reply("Perintah tidak valid. Gunakan 'admin' atau 'remove'.");
     }
   }, delay);
 };
