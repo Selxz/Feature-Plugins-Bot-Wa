@@ -66,4 +66,15 @@ Refer to the documentation or available scripts inside the repository.
 $ npm install <package-name>
 ```
 
-> Developer
+---
+
+# Contributor
+
+- Dev1:
+```yaml
+Selxyz
+```
+- Dev2:
+```yaml
+Haidar
+```
